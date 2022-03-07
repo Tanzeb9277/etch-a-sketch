@@ -2,8 +2,18 @@ const grid = document.querySelector('.grid');
 const r = document.querySelector(':root');
 const button = document.querySelector('#clearGrid');
 let gridNumb;
+let isDown = false;
 
-function createGrid(size = 16){
+document.addEventListener("mousedown", function() {
+    isDown = true;
+});
+
+document.addEventListener("mouseup", function(){
+    isDown = false;
+})
+
+
+function createGrid(size = 250){
     console.log(size)
     r.style.setProperty('--size', size);
     gridNumb = size * size;
@@ -11,7 +21,11 @@ function createGrid(size = 16){
         let gridItem = document.createElement('div');
         gridItem.classList.add('gridItem');
         gridItem.addEventListener('mouseover', function(e){
-            e.target.classList.add('drawn');
+            console.log(isDown)
+            if(isDown == true){
+                e.target.classList.add('drawn');
+            }
+            
         }); 
 
         grid.appendChild(gridItem);
@@ -28,15 +42,6 @@ button.addEventListener("click", function(){
     for(let i = 0; i < itemNum.length; i++){
         itemNum[i].classList.remove('drawn');
     }
-
-    let size = prompt('Enter a number less than 100', '100');
-
-    if (size > 100){
-        while (size > 100 ){
-            size = prompt('Number too large, enter number less than 100', '100');
-        }
-        createGrid(size)
-    } else createGrid(size);
 });
 
 
